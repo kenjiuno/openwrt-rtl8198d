@@ -1,0 +1,153 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
+
+/dts-v1/;
+
+/ {
+	clocks {
+		apro_soc_clk: apro_soc_clk {
+			compatible = "rtk,apro-ocpclk";
+			#clock-cells = <1>;
+		};
+	};
+
+	cpus {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		cpu@0 {
+			compatible = "mti,interaptiv";
+			device_type = "cpu";
+			reg = <0>;
+		};
+	};
+
+	cpuintc: cpuintc@0 {
+		#address-cells = <0>;
+		#interrupt-cells = <1>;
+		interrupt-controller;
+		compatible = "mti,cpu-interrupt-controller";
+	};
+
+
+
+	ictl: ictl@1f000000 {
+	      compatible = "rtk,dw-apb-ictl";
+	      reg = <0x1f000000 0x100>;
+	      interrupt-controller;
+		#interrupt-cells = <1>;
+	      interrupt-parent = <&cpuintc>;
+	      interrupts = <2>;
+	};
+
+	gic: gic@1fbc0000 {
+		compatible = "mti,gic";
+		reg = <0x1fbc0000 0x20000>;
+		interrupt-controller;
+		#interrupt-cells = <3>;
+		interrupt-parent = <&cpuintc>;
+		interrupts = <2>;
+	};
+
+	uart0: serial@18002000 {
+		compatible = "ns16550a";
+		reg = <0x18002000 0x100>;
+		reg-shift = <2>;
+		reg-io-width = <1>;
+		clock-frequency = <197235200>;
+	};
+
+	switch: switch@0 {		
+		compatible = "rtk,switch";
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SHARED GIC_EXT_SWCORE IRQ_TYPE_LEVEL_HIGH>;
+	};
+	
+	eth: ethernet@0 {
+		compatible = "rtk,gmac";		
+		gmachw0: gmac0 {
+			reg = <0x18012000 0x2000>;
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SHARED GIC_EXT_INT0_GMAC0 IRQ_TYPE_LEVEL_HIGH>;
+		};
+		
+		gmachw1: gmac1 {
+			reg = <0x18014000 0x2000>;
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SHARED GIC_EXT_INT0_GMAC1 IRQ_TYPE_LEVEL_HIGH>;
+		};	
+
+		gmachw2: gmac2 {
+			reg = <0x18016000 0x2000>;
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SHARED GIC_EXT_INT0_GMAC2 IRQ_TYPE_LEVEL_HIGH>;
+		};	
+	};
+	
+	usb0: usb@0 {
+		compatible = "rtk,usb";
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SHARED GIC_EXT_USB_2 IRQ_TYPE_LEVEL_HIGH>;
+	};
+	
+	usb1: usb@1 {
+		compatible = "rtk,usb";
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SHARED GIC_EXT_USBHOSTP2 IRQ_TYPE_LEVEL_HIGH>;
+	};
+	
+	usb2: usb@2 {
+		compatible = "rtk,usb";
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SHARED GIC_EXT_USB_23 IRQ_TYPE_LEVEL_HIGH>;
+	};
+
+	gpio-controller@1b000038 {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		compatible = "rtk,gpio";
+		reg = <0x1B000038 0xC>,
+			  <0x18003308 0x54>;
+
+		gpio0: bank@0 {
+			gpio-controller;
+			interrupt-controller;
+			reg = <0>;
+			ngpios = <32>;
+			#gpio-cells = <2>;
+			#interrupt-cells = <2>;
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SHARED GIC_EXT_GPIO_ABCD IRQ_TYPE_LEVEL_HIGH>;
+			/*gpio-ranges = <&pinctrl 0 0 32>;*/
+		};
+
+		gpio1: bank@1 {
+			gpio-controller;
+			interrupt-controller;
+			reg = <1>;
+			ngpios = <32>;
+			#gpio-cells = <2>;
+			#interrupt-cells = <2>;
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SHARED GIC_EXT_GPIO_EFGH IRQ_TYPE_LEVEL_HIGH>;
+			/*gpio-ranges = <&pinctrl 0 32 32>;*/
+		};
+
+		gpio2: bank@2 {
+			gpio-controller;
+			interrupt-controller;
+			reg = <2>;
+			ngpios = <32>;
+			#gpio-cells = <2>;
+			#interrupt-cells = <2>;
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SHARED GIC_EXT_GPIO_JKMN IRQ_TYPE_LEVEL_HIGH>;
+			/*gpio-ranges = <&pinctrl 0 64 32>;*/
+		};
+	};
+
+	/* Create a initramfs region at 0x83000000, and the size is 16MB. */
+	chosen {
+		bootargs = "console=ttyS0,115200 init=/init rd_start=0x83000000 rd_size=0x01000000";
+		stdout-path = &uart0;
+	};
+};
