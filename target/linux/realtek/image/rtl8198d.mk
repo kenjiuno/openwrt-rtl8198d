@@ -3,7 +3,7 @@
 include ./common.mk
 
 define Device/elecom_wrc-x1800gs2
-  SOC := rtl8198
+  SOC := rtl8198d
   IMAGE_SIZE := 3968k
   DEVICE_VENDOR := ELECOM
   DEVICE_MODEL := WRC-X1800GS2
