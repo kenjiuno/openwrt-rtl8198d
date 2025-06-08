@@ -4,10 +4,10 @@ include ./common.mk
 
 define Device/elecom_wrc-x1800gs2
   SOC := rtl8198
-  IMAGE_SIZE := 7168k
+  IMAGE_SIZE := 3968k
   DEVICE_VENDOR := ELECOM
   DEVICE_MODEL := WRC-X1800GS2
-  UIMAGE_MAGIC := 0x00000000
-  UIMAGE_NAME := Linux Kernel Image
+  UIMAGE_MAGIC := 0x27051956
+  UIMAGE_NAME := Linux-5.10.70
 endef
 TARGET_DEVICES += elecom_wrc-x1800gs2
