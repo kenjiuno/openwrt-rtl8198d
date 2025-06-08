@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 
-#include "rtl819x.dtsi"
+#include "rtl8198d.dtsi"
 
 / {
 	model = "ELECOM WRC-X1800GS2";
