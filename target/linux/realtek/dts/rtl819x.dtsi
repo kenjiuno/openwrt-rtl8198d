@@ -1,153 +1,282 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
 /dts-v1/;
-
+ 
 / {
+	compatible = "rtk,8198d";
+	#address-cells = <0x01>;
+	#size-cells = <0x01>;
+ 
 	clocks {
-		apro_soc_clk: apro_soc_clk {
+ 
+		apro_soc_clk {
 			compatible = "rtk,apro-ocpclk";
-			#clock-cells = <1>;
+			#clock-cells = <0x01>;
+			phandle = <0x02>;
 		};
 	};
-
+ 
 	cpus {
-		#address-cells = <1>;
-		#size-cells = <0>;
-
+		#address-cells = <0x01>;
+		#size-cells = <0x00>;
+ 
 		cpu@0 {
 			compatible = "mti,interaptiv";
 			device_type = "cpu";
-			reg = <0>;
+			reg = <0x00>;
 		};
 	};
-
-	cpuintc: cpuintc@0 {
-		#address-cells = <0>;
-		#interrupt-cells = <1>;
+ 
+	cpuintc@0 {
+		#address-cells = <0x00>;
+		#interrupt-cells = <0x01>;
 		interrupt-controller;
 		compatible = "mti,cpu-interrupt-controller";
+		phandle = <0x01>;
 	};
-
-
-
-	ictl: ictl@1f000000 {
-	      compatible = "rtk,dw-apb-ictl";
-	      reg = <0x1f000000 0x100>;
-	      interrupt-controller;
-		#interrupt-cells = <1>;
-	      interrupt-parent = <&cpuintc>;
-	      interrupts = <2>;
+ 
+	ictl@1f000000 {
+		compatible = "rtk,dw-apb-ictl";
+		reg = <0x1f000000 0x100>;
+		interrupt-controller;
+		#interrupt-cells = <0x01>;
+		interrupt-parent = <0x01>;
+		interrupts = <0x02>;
 	};
-
-	gic: gic@1fbc0000 {
+ 
+	gic@1fbc0000 {
 		compatible = "mti,gic";
 		reg = <0x1fbc0000 0x20000>;
 		interrupt-controller;
-		#interrupt-cells = <3>;
-		interrupt-parent = <&cpuintc>;
-		interrupts = <2>;
+		#interrupt-cells = <0x03>;
+		interrupt-parent = <0x01>;
+		interrupts = <0x02>;
+		phandle = <0x03>;
+ 
+		timer {
+			compatible = "mti,gic-timer";
+			interrupts = <0x01 0x01 0x00>;
+			clocks = <0x02 0x00>;
+		};
 	};
-
-	uart0: serial@18002000 {
+ 
+	serial@18002000 {
 		compatible = "ns16550a";
 		reg = <0x18002000 0x100>;
-		reg-shift = <2>;
-		reg-io-width = <1>;
-		clock-frequency = <197235200>;
+		reg-shift = <0x02>;
+		reg-io-width = <0x01>;
+		clock-frequency = <0xbc19200>;
+		interrupt-parent = <0x03>;
+		interrupts = <0x00 0x17 0x04>;
 	};
-
-	switch: switch@0 {		
+ 
+	switch@0 {
 		compatible = "rtk,switch";
-		interrupt-parent = <&gic>;
-		interrupts = <GIC_SHARED GIC_EXT_SWCORE IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-parent = <0x03>;
+		interrupts = <0x00 0x0f 0x04>;
 	};
-	
-	eth: ethernet@0 {
-		compatible = "rtk,gmac";		
-		gmachw0: gmac0 {
+ 
+	ethernet@0 {
+		compatible = "rtk,gmac";
+ 
+		gmac0 {
 			reg = <0x18012000 0x2000>;
-			interrupt-parent = <&gic>;
-			interrupts = <GIC_SHARED GIC_EXT_INT0_GMAC0 IRQ_TYPE_LEVEL_HIGH>;
+			interrupt-parent = <0x03>;
+			interrupts = <0x00 0x24 0x04>;
 		};
-		
-		gmachw1: gmac1 {
+ 
+		gmac1 {
 			reg = <0x18014000 0x2000>;
-			interrupt-parent = <&gic>;
-			interrupts = <GIC_SHARED GIC_EXT_INT0_GMAC1 IRQ_TYPE_LEVEL_HIGH>;
-		};	
-
-		gmachw2: gmac2 {
+			interrupt-parent = <0x03>;
+			interrupts = <0x00 0x26 0x04>;
+		};
+ 
+		gmac2 {
 			reg = <0x18016000 0x2000>;
-			interrupt-parent = <&gic>;
-			interrupts = <GIC_SHARED GIC_EXT_INT0_GMAC2 IRQ_TYPE_LEVEL_HIGH>;
-		};	
+			interrupt-parent = <0x03>;
+			interrupts = <0x00 0x28 0x04>;
+		};
 	};
-	
-	usb0: usb@0 {
+ 
+	usb@0 {
 		compatible = "rtk,usb";
-		interrupt-parent = <&gic>;
-		interrupts = <GIC_SHARED GIC_EXT_USB_2 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-parent = <0x03>;
+		interrupts = <0x00 0x33 0x04>;
 	};
-	
-	usb1: usb@1 {
+ 
+	usb@1 {
 		compatible = "rtk,usb";
-		interrupt-parent = <&gic>;
-		interrupts = <GIC_SHARED GIC_EXT_USBHOSTP2 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-parent = <0x03>;
+		interrupts = <0x00 0x11 0x04>;
 	};
-	
-	usb2: usb@2 {
+ 
+	usb@2 {
 		compatible = "rtk,usb";
-		interrupt-parent = <&gic>;
-		interrupts = <GIC_SHARED GIC_EXT_USB_23 IRQ_TYPE_LEVEL_HIGH>;
+		interrupt-parent = <0x03>;
+		interrupts = <0x00 0x34 0x04>;
 	};
-
+ 
 	gpio-controller@1b000038 {
-		#address-cells = <1>;
-		#size-cells = <0>;
+		#address-cells = <0x01>;
+		#size-cells = <0x00>;
 		compatible = "rtk,gpio";
-		reg = <0x1B000038 0xC>,
-			  <0x18003308 0x54>;
-
-		gpio0: bank@0 {
+		reg = <0x1b000038 0x0c 0x18003308 0x54>;
+ 
+		bank@0 {
 			gpio-controller;
 			interrupt-controller;
-			reg = <0>;
-			ngpios = <32>;
-			#gpio-cells = <2>;
-			#interrupt-cells = <2>;
-			interrupt-parent = <&gic>;
-			interrupts = <GIC_SHARED GIC_EXT_GPIO_ABCD IRQ_TYPE_LEVEL_HIGH>;
-			/*gpio-ranges = <&pinctrl 0 0 32>;*/
+			reg = <0x00>;
+			ngpios = <0x20>;
+			#gpio-cells = <0x02>;
+			#interrupt-cells = <0x02>;
+			interrupt-parent = <0x03>;
+			interrupts = <0x00 0x15 0x04>;
+			phandle = <0x04>;
 		};
-
-		gpio1: bank@1 {
+ 
+		bank@1 {
 			gpio-controller;
 			interrupt-controller;
-			reg = <1>;
-			ngpios = <32>;
-			#gpio-cells = <2>;
-			#interrupt-cells = <2>;
-			interrupt-parent = <&gic>;
-			interrupts = <GIC_SHARED GIC_EXT_GPIO_EFGH IRQ_TYPE_LEVEL_HIGH>;
-			/*gpio-ranges = <&pinctrl 0 32 32>;*/
+			reg = <0x01>;
+			ngpios = <0x20>;
+			#gpio-cells = <0x02>;
+			#interrupt-cells = <0x02>;
+			interrupt-parent = <0x03>;
+			interrupts = <0x00 0x16 0x04>;
+			phandle = <0x05>;
 		};
-
-		gpio2: bank@2 {
+ 
+		bank@2 {
 			gpio-controller;
 			interrupt-controller;
-			reg = <2>;
-			ngpios = <32>;
-			#gpio-cells = <2>;
-			#interrupt-cells = <2>;
-			interrupt-parent = <&gic>;
-			interrupts = <GIC_SHARED GIC_EXT_GPIO_JKMN IRQ_TYPE_LEVEL_HIGH>;
-			/*gpio-ranges = <&pinctrl 0 64 32>;*/
+			reg = <0x02>;
+			ngpios = <0x20>;
+			#gpio-cells = <0x02>;
+			#interrupt-cells = <0x02>;
+			interrupt-parent = <0x03>;
+			interrupts = <0x00 0x12 0x04>;
 		};
 	};
-
-	/* Create a initramfs region at 0x83000000, and the size is 16MB. */
+ 
 	chosen {
 		bootargs = "console=ttyS0,115200 init=/init rd_start=0x83000000 rd_size=0x01000000";
-		stdout-path = &uart0;
+		stdout-path = "/serial@18002000";
+	};
+ 
+	leds {
+		compatible = "gpio-leds";
+ 
+		led_power_green {
+			label = "LED_POWER_GREEN_G";
+			gpios = <0x04 0x07 0x01>;
+			linux,default-trigger = "timer";
+			default-state = "off";
+		};
+ 
+		led_power_amber {
+			label = "LED_POWER_AMBER_G";
+			gpios = <0x05 0x02 0x01>;
+			linux,default-trigger = "timer";
+			default-state = "off";
+		};
+ 
+		led_power_red {
+			label = "LED_POWER_RED_G";
+			gpios = <0x04 0x10 0x01>;
+			default-state = "off";
+		};
+ 
+		led_power_blue {
+			label = "LED_POWER_BLUE_G";
+			gpios = <0x04 0x1c 0x01>;
+			linux,default-trigger = "timer";
+			default-state = "off";
+		};
+ 
+		led_internet_green {
+			label = "LED_INTERNET_GREEN_G";
+			gpios = <0x04 0x06 0x01>;
+			default-state = "off";
+		};
+ 
+		led_wps {
+			label = "LED_WPS_G";
+			gpios = <0x04 0x19 0x01>;
+			default-state = "off";
+		};
+ 
+		ed_wan_green {
+			label = "LED_WAN_GREEN_G";
+			gpios = <0x05 0x04 0x01>;
+			default-state = "off";
+		};
+ 
+		led_lan1_green {
+			label = "LED_LAN1_GREEN_G";
+			gpios = <0x04 0x09 0x01>;
+			default-state = "off";
+		};
+ 
+		led_lan2_green {
+			label = "LED_LAN2_GREEN_G";
+			gpios = <0x05 0x03 0x01>;
+			default-state = "off";
+		};
+ 
+		led_lan3_green {
+			label = "LED_LAN3_GREEN_G";
+			gpios = <0x04 0x1e 0x01>;
+			default-state = "off";
+		};
+	};
+ 
+	gpio-keys-button {
+		compatible = "gpio-keys";
+		autorepeat;
+ 
+		btn_reset {
+			label = "btn,reset";
+			linux,code = <0x198>;
+			gpios = <0x05 0x05 0x01>;
+		};
+ 
+		btn_wps {
+			label = "btn,wps";
+			linux,code = <0x211>;
+			gpios = <0x04 0x08 0x01>;
+		};
+	};
+ 
+	gpio-keys-mode {
+		compatible = "gpio-keys";
+ 
+		mode_router {
+			label = "mode,router";
+			linux,code = <0xf9>;
+			gpios = <0x04 0x0a 0x01>;
+		};
+ 
+		mode_ap {
+			label = "mode,ap";
+			linux,code = <0xfa>;
+			gpios = <0x05 0x00 0x01>;
+		};
+ 
+		mode_wb {
+			label = "mode,repeater";
+			linux,code = <0xfb>;
+			gpios = <0x05 0x1c 0x01>;
+		};
+ 
+		mode_home {
+			label = "mode,home";
+			linux,code = <0xfc>;
+			gpios = <0x04 0x0c 0x01>;
+		};
+	};
+ 
+	board_setting {
+		pci0_gpio_rst = <0x05 0x08 0x00>;
+		pci1_gpio_rst = <0x05 0x07 0x00>;
 	};
 };
