@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#define GIC_LOCAL 1
 #define GIC_EXT_SWCORE 0x0f
 #define GIC_EXT_INT0_GMAC0 0x24
 #define GIC_EXT_INT0_GMAC1 0x26
