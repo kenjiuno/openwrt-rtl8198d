@@ -16,11 +16,12 @@
 /dts-v1/;
 
 / {
-	compatible = "realtek,8198d";
+	compatible = "realtek,rtl8198d-soc";
 	#address-cells = <0x01>;
 	#size-cells = <0x01>;
  
  	memory@0 {
+		device_type = "memory";
 		reg = <0x0 0x10000000>;
 	};
 

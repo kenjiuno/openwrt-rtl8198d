@@ -3,6 +3,6 @@
 #include "rtl8198d.dtsi"
 
 / {
-	compatible = "realtek,8198d";
+	compatible = "realtek,rtl8198d-soc";
 	model = "ELECOM WRC-X1800GS2";
 };
