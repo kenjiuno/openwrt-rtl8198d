@@ -1,7 +1,18 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#define GIC_EXT_SWCORE 0x0f
+#define GIC_EXT_INT0_GMAC0 0x24
+#define GIC_EXT_INT0_GMAC1 0x26
+#define GIC_EXT_INT0_GMAC2 0x28
+#define GIC_EXT_USB_2 0x33
+#define GIC_EXT_USBHOSTP2 0x11
+#define GIC_EXT_USB_23 0x34
+#define GIC_EXT_GPIO_ABCD 0x15
+#define GIC_EXT_GPIO_EFGH 0x16
+#define GIC_EXT_GPIO_JKMN 0x12
+
 /dts-v1/;
- 
+
 / {
 	compatible = "realtek,8198d";
 	#address-cells = <0x01>;
@@ -13,10 +24,9 @@
 
 	clocks {
  
-		apro_soc_clk {
+		apro_soc_clk: apro_soc_clk {
 			compatible = "realtek,apro-ocpclk";
 			#clock-cells = <0x01>;
-			phandle = <0x02>;
 		};
 	};
  
@@ -31,12 +41,11 @@
 		};
 	};
  
-	cpuintc@0 {
+	cpuintc: cpuintc@0 {
 		#address-cells = <0x00>;
 		#interrupt-cells = <0x01>;
 		interrupt-controller;
 		compatible = "mti,cpu-interrupt-controller";
-		phandle = <0x01>;
 	};
  
 	ictl@1f000000 {
@@ -44,23 +53,22 @@
 		reg = <0x1f000000 0x100>;
 		interrupt-controller;
 		#interrupt-cells = <0x01>;
-		interrupt-parent = <0x01>;
+		interrupt-parent = <&cpuintc>;
 		interrupts = <0x02>;
 	};
  
-	gic@1fbc0000 {
+	gic: gic@1fbc0000 {
 		compatible = "mti,gic";
 		reg = <0x1fbc0000 0x20000>;
 		interrupt-controller;
 		#interrupt-cells = <0x03>;
-		interrupt-parent = <0x01>;
+		interrupt-parent = <&cpuintc>;
 		interrupts = <0x02>;
-		phandle = <0x03>;
  
 		timer {
 			compatible = "mti,gic-timer";
-			interrupts = <0x01 0x01 0x00>;
-			clocks = <0x02 0x00>;
+			interrupts = <GIC_LOCAL 1 IRQ_TYPE_NONE>;
+			clocks = <&apro_soc_clk 0>;
 		};
 	};
  
@@ -70,54 +78,54 @@
 		reg-shift = <0x02>;
 		reg-io-width = <0x01>;
 		clock-frequency = <0xbc19200>;
-		interrupt-parent = <0x03>;
+		interrupt-parent = <&gic>;
 		interrupts = <0x00 0x17 0x04>;
 	};
- 
+
 	switch@0 {
 		compatible = "realtek,switch";
-		interrupt-parent = <0x03>;
-		interrupts = <0x00 0x0f 0x04>;
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SHARED GIC_EXT_SWCORE IRQ_TYPE_LEVEL_HIGH>;
 	};
  
 	ethernet@0 {
 		compatible = "realtek,gmac";
  
-		gmac0 {
+		gmachw0: gmac0 {
 			reg = <0x18012000 0x2000>;
-			interrupt-parent = <0x03>;
-			interrupts = <0x00 0x24 0x04>;
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SHARED GIC_EXT_INT0_GMAC0 IRQ_TYPE_LEVEL_HIGH>;
 		};
  
-		gmac1 {
+		gmachw1: gmac1 {
 			reg = <0x18014000 0x2000>;
-			interrupt-parent = <0x03>;
-			interrupts = <0x00 0x26 0x04>;
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SHARED GIC_EXT_INT0_GMAC1 IRQ_TYPE_LEVEL_HIGH>;
 		};
  
-		gmac2 {
+		gmachw2: gmac2 {
 			reg = <0x18016000 0x2000>;
-			interrupt-parent = <0x03>;
-			interrupts = <0x00 0x28 0x04>;
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SHARED GIC_EXT_INT0_GMAC2 IRQ_TYPE_LEVEL_HIGH>;
 		};
 	};
  
-	usb@0 {
+	usb0: usb@0 {
 		compatible = "realtek,usb";
-		interrupt-parent = <0x03>;
-		interrupts = <0x00 0x33 0x04>;
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SHARED GIC_EXT_USB_2 IRQ_TYPE_LEVEL_HIGH>;
 	};
  
-	usb@1 {
+	usb1: usb@1 {
 		compatible = "realtek,usb";
-		interrupt-parent = <0x03>;
-		interrupts = <0x00 0x11 0x04>;
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SHARED GIC_EXT_USBHOSTP2 IRQ_TYPE_LEVEL_HIGH>;
 	};
  
-	usb@2 {
+	usb2: usb@2 {
 		compatible = "realtek,usb";
-		interrupt-parent = <0x03>;
-		interrupts = <0x00 0x34 0x04>;
+		interrupt-parent = <&gic>;
+		interrupts = <GIC_SHARED GIC_EXT_USB_23 IRQ_TYPE_LEVEL_HIGH>;
 	};
  
 	gpio-controller@1b000038 {
@@ -126,39 +134,37 @@
 		compatible = "realtek,gpio";
 		reg = <0x1b000038 0x0c 0x18003308 0x54>;
  
-		bank@0 {
+		gpio0: bank@0 {
 			gpio-controller;
 			interrupt-controller;
 			reg = <0x00>;
 			ngpios = <0x20>;
 			#gpio-cells = <0x02>;
 			#interrupt-cells = <0x02>;
-			interrupt-parent = <0x03>;
-			interrupts = <0x00 0x15 0x04>;
-			phandle = <0x04>;
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SHARED GIC_EXT_GPIO_ABCD IRQ_TYPE_LEVEL_HIGH>;
 		};
  
-		bank@1 {
+		gpio1: bank@1 {
 			gpio-controller;
 			interrupt-controller;
 			reg = <0x01>;
 			ngpios = <0x20>;
 			#gpio-cells = <0x02>;
 			#interrupt-cells = <0x02>;
-			interrupt-parent = <0x03>;
-			interrupts = <0x00 0x16 0x04>;
-			phandle = <0x05>;
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SHARED GIC_EXT_GPIO_EFGH IRQ_TYPE_LEVEL_HIGH>;
 		};
  
-		bank@2 {
+		gpio2: bank@2 {
 			gpio-controller;
 			interrupt-controller;
 			reg = <0x02>;
 			ngpios = <0x20>;
 			#gpio-cells = <0x02>;
 			#interrupt-cells = <0x02>;
-			interrupt-parent = <0x03>;
-			interrupts = <0x00 0x12 0x04>;
+			interrupt-parent = <&gic>;
+			interrupts = <GIC_SHARED GIC_EXT_GPIO_JKMN IRQ_TYPE_LEVEL_HIGH>;
 		};
 	};
  
