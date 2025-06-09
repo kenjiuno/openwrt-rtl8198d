@@ -1,8 +1,19 @@
 // SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 
+/ {
+ 	memory@0 {
+		device_type = "memory";
+		reg = <0x0 0x10000000>;
+	};
+};
+
 #include "rtl8198d.dtsi"
 
 / {
 	compatible = "realtek,rtl8198d-soc";
 	model = "ELECOM WRC-X1800GS2";
+
+	chosen {
+		bootargs = "earlycon console=ttyS0,115200 ubi.mtd=4 root=31:7 rootfs=squashfs mtdparts=spinand:768K(boot),128K(env),128K(env2),128K(static_conf),127360K(ubi_device)";
+	};
 };
