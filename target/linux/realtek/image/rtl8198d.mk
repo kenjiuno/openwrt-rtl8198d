@@ -7,6 +7,7 @@ define Device/elecom_wrc-x1800gs2
   IMAGE_SIZE := 3968k
   DEVICE_VENDOR := ELECOM
   DEVICE_MODEL := WRC-X1800GS2 (TODO: Memory layout, Login via ttyS0, Eth, LEDs, GPIO, RTL8192XBR, RTL8832CR, WLAN)
+  DEVICE_PACKAGES := kmod-gpio-button-hotplug
   UIMAGE_MAGIC := 0x27051956
   UIMAGE_NAME := Linux-5.10.70
 endef
