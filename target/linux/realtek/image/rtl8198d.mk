@@ -9,9 +9,5 @@ define Device/elecom_wrc-x1800gs2
   DEVICE_MODEL := WRC-X1800GS2
   UIMAGE_MAGIC := 0x27051956
   UIMAGE_NAME := Linux-5.10.70
-  KERNEL := \
-	  kernel-bin | \
-	  append-dtb | \
-	  uImage gzip
 endef
 TARGET_DEVICES += elecom_wrc-x1800gs2
