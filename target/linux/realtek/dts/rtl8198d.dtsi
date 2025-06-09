@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 
+#include <dt-bindings/clock/rtl83xx-clk.h>
 #include <dt-bindings/interrupt-controller/mips-gic.h>
 
 #define GIC_EXT_SWCORE 0x0f
