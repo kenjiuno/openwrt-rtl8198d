@@ -21,12 +21,12 @@
 	#address-cells = <0x01>;
 	#size-cells = <0x01>;
  
- 	cpuclock: cpuclock@0 {
-		#clock-cells = <0>;
-		compatible = "fixed-clock";
-
-		/* FIXME: there should be way to detect this */
-		clock-frequency = <1000000000>;
+	clocks {
+ 
+		apro_soc_clk: apro_soc_clk {
+			compatible = "realtek,apro-ocpclk";
+			#clock-cells = <0x01>;
+		};
 	};
 
 	cpus {
@@ -38,12 +38,6 @@
 			compatible = "mti,interaptiv";
 			device_type = "cpu";
 			reg = <0>;
-		};
-
-		cpu@1 {
-			compatible = "mti,interaptiv";
-			device_type = "cpu";
-			reg = <1>;
 		};
 	};
  
@@ -74,7 +68,7 @@
 		timer {
 			compatible = "mti,gic-timer";
 			interrupts = <GIC_LOCAL 1 IRQ_TYPE_NONE>;
-			clocks = <&cpuclock>;
+			clocks = <&apro_soc_clk 0>;
 		};
 	};
  
