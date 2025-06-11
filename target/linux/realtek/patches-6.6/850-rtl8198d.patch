@@ -8,11 +8,10 @@ diff -uprN a/arch/mips/Kconfig b/arch/mips/Kconfig
 +config RTL8198D
 +	bool "Realtek RTL9198D based platforms"
 +	depends on MACH_REALTEK_RTL
++	select CPU_SUPPORTS_CPUFREQ
 +	select MIPS_CPU_SCACHE
-+	select MIPS_GIC
-+	select COMMON_CLK
-+	select CLKSRC_MIPS_GIC
-+	select SYS_SUPPORTS_SMP
++	select MIPS_EXTERNAL_TIMER
++	select SYS_SUPPORTS_MULTITHREADING
 +
  source "arch/mips/alchemy/Kconfig"
  source "arch/mips/ath25/Kconfig"
