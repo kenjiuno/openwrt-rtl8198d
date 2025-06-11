@@ -93,7 +93,9 @@ void __init plat_time_init(void)
 	if (!mips_hpt_frequency)
 		plat_time_init_fallback();
 
+	pr_info("timer_probe i\n");
 	timer_probe();
+	pr_info("timer_probe o\n");
 }
 
 void __init arch_init_irq(void)
