@@ -12,6 +12,6 @@
 	};
 
 	chosen {
-		bootargs = "earlycon console=ttyS0,115200 ubi.mtd=4 root=31:7 rootfs=squashfs mtdparts=spinand:768K(boot),128K(env),128K(env2),128K(static_conf),127360K(ubi_device)";
+		bootargs = "earlycon console=ttyS0,115200 ubi.mtd=4 root=31:7 rootfstype=squashfs mtdparts=spinand:768K(boot),128K(env),128K(env2),128K(static_conf),127360K(ubi_device)";
 	};
 };
