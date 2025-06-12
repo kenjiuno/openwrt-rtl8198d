@@ -138,35 +138,17 @@ void __init prom_init(void)
 	{
 		uint32_t val;
 
-		pr_inf("Tests for RTL8198D\n");
+		pr_info("Tests for RTL8198D\n");
 
-		#define BSP_GIMR            0xB8003000
-		val = readl(BSP_GIMR);
-		pr_inf("BSP_GIMR %08X\n", (unsigned)val);
-		
-		#define BSP_GISR            0xB8003004
-		val = readl(BSP_GISR);
-		pr_inf("BSP_GISR %08X\n", (unsigned)val);
+#define print_reg(key, reg) pr_info("%s %08X\n", #key, readl(((volatile void *) reg)));
 
-		#define BSP_IRR0            0xB8003008
-		val = readl(BSP_IRR0);
-		pr_inf("BSP_IRR0 %08X\n", (unsigned)val);
-
-		#define BSP_IRR1            0xB800300C
-		val = readl(BSP_IRR1);
-		pr_inf("BSP_IRR1 %08X\n", (unsigned)val);
-
-		#define BSP_IRR2            0xB8003010
-		val = readl(BSP_IRR2);
-		pr_inf("BSP_IRR2 %08X\n", (unsigned)val);
-
-		#define BSP_IRR3            0xB8003014
-		val = readl(BSP_IRR3);
-		pr_inf("BSP_IRR3 %08X\n", (unsigned)val);
-
-		#define BSP_TC_BASE         0xB8003100
-		val = readl(BSP_TC_BASE);
-		pr_inf("BSP_TC_BASE %08X\n", (unsigned)val);
+		print_reg(BSP_GIMR, 0xB8003000);
+		print_reg(BSP_GISR, 0xB8003004);
+		print_reg(BSP_IRR0, 0xB8003008);
+		print_reg(BSP_IRR1, 0xB800300C);
+		print_reg(BSP_IRR2, 0xB8003010);
+		print_reg(BSP_IRR3, 0xB8003014);
+		print_reg(BSP_TC_BASE, 0xB8003100);
 	}
 
 	model = sw_r32(RTL838X_MODEL_NAME_INFO);
