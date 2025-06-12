@@ -136,8 +136,6 @@ void __init prom_init(void)
 	uint32_t model;
 
 	{
-		uint32_t val;
-
 		pr_info("Tests for RTL8198D\n");
 
 #define print_reg(key, reg) pr_info("%s %08X\n", #key, readl(((volatile void *) reg)));
