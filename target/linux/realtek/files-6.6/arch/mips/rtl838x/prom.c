@@ -136,39 +136,6 @@ void __init prom_init(void)
 {
 	uint32_t model;
 
-	{
-		pr_info("Tests for RTL8198D\n");
-
-#define print_reg(key, reg) pr_info("%s %08X\n", #key, readl(((volatile void *) reg)));
-
-		print_reg(BSP_GIMR, 0xB8003000);
-		print_reg(BSP_GISR, 0xB8003004);
-		print_reg(BSP_IRR0, 0xB8003008);
-		print_reg(BSP_IRR1, 0xB800300C);
-		print_reg(BSP_IRR2, 0xB8003010);
-		print_reg(BSP_IRR3, 0xB8003014);
-		print_reg(BSP_TC_BASE, 0xB8003100);
-
-		pr_info("LO0 %08X\n", (unsigned)read_c0_entrylo0());
-		pr_info("LO1 %08X\n", (unsigned)read_c0_entrylo1());
-		pr_info("HI %08X\n", (unsigned)read_c0_entryhi());
-		pr_info("PAGEMASK %08X\n", (unsigned)read_c0_pagemask());
-		pr_info("CONTEXT %08X\n", (unsigned)read_c0_context());
-		pr_info("PRId %08X\n", (unsigned)read_c0_prid());
-		pr_info("CONF0 %08X\n", (unsigned)read_c0_config());
-		pr_info("CONF1 %08X\n", (unsigned)read_c0_config1());
-		pr_info("CONF2 %08X\n", (unsigned)read_c0_config2());
-		pr_info("CONF3 %08X\n", (unsigned)read_c0_config3());
-		pr_info("CONF4 %08X\n", (unsigned)read_c0_config4());
-		pr_info("CONF5 %08X\n", (unsigned)read_c0_config5());
-		pr_info("CONF6 %08X\n", (unsigned)read_c0_config6());
-		pr_info("CONF7 %08X\n", (unsigned)read_c0_config7());
-
-		pr_info("dump_tlb_all i\n");
-		dump_tlb_all();
-		pr_info("dump_tlb_all o\n");
-	}
-
 	model = sw_r32(RTL838X_MODEL_NAME_INFO);
 	pr_info("RTL838X model is %x\n", model);
 	model = model >> 16 & 0xFFFF;
