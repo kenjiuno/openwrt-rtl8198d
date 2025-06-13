@@ -151,6 +151,8 @@ void __init prom_init(void)
 		pr_info("LO0 %08X\n", (unsigned)read_c0_entrylo0());
 		pr_info("LO1 %08X\n", (unsigned)read_c0_entrylo1());
 		pr_info("HI %08X\n", (unsigned)read_c0_entryhi());
+		pr_info("PAGEMASK %08X\n", (unsigned)read_c0_pagemask());
+		pr_info("CONTEXT %08X\n", (unsigned)read_c0_context());
 		pr_info("PRId %08X\n", (unsigned)read_c0_prid());
 		pr_info("CONF0 %08X\n", (unsigned)read_c0_config());
 		pr_info("CONF1 %08X\n", (unsigned)read_c0_config1());
