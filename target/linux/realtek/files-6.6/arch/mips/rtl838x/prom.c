@@ -148,18 +148,18 @@ void __init prom_init(void)
 		print_reg(BSP_IRR3, 0xB8003014);
 		print_reg(BSP_TC_BASE, 0xB8003100);
 
-		printf("LO0 %08X\n", read_c0_entrylo0());
-		printf("LO1 %08X\n", read_c0_entrylo1());
-		printf("HI %08X\n", read_c0_entryhi());
-		printf("PRId %08X\n", read_c0_prid());
-		printf("CONF0 %08X\n", read_c0_config());
-		printf("CONF1 %08X\n", read_c0_config1());
-		printf("CONF2 %08X\n", read_c0_config2());
-		printf("CONF3 %08X\n", read_c0_config3());
-		printf("CONF4 %08X\n", read_c0_config4());
-		printf("CONF5 %08X\n", read_c0_config5());
-		printf("CONF6 %08X\n", read_c0_config6());
-		printf("CONF7 %08X\n", read_c0_config7());
+		pr_info("LO0 %08X\n", read_c0_entrylo0());
+		pr_info("LO1 %08X\n", read_c0_entrylo1());
+		pr_info("HI %08X\n", read_c0_entryhi());
+		pr_info("PRId %08X\n", read_c0_prid());
+		pr_info("CONF0 %08X\n", read_c0_config());
+		pr_info("CONF1 %08X\n", read_c0_config1());
+		pr_info("CONF2 %08X\n", read_c0_config2());
+		pr_info("CONF3 %08X\n", read_c0_config3());
+		pr_info("CONF4 %08X\n", read_c0_config4());
+		pr_info("CONF5 %08X\n", read_c0_config5());
+		pr_info("CONF6 %08X\n", read_c0_config6());
+		pr_info("CONF7 %08X\n", read_c0_config7());
 	}
 
 	model = sw_r32(RTL838X_MODEL_NAME_INFO);
