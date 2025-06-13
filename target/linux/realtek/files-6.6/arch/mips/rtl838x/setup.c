@@ -97,17 +97,17 @@ void __init plat_time_init(void)
 	timer_probe();
 
 	{
-		pr_info("Tests for RTL8198D b\n");
+		pr_info("Tests for RTL8198D b2\n");
 
 #define print_reg(key, reg) pr_info("%s %08X\n", #key, readl(((volatile void *) reg)));
 
-		print_reg(BSP_GIMR, 0xB8003000);
-		print_reg(BSP_GISR, 0xB8003004);
-		print_reg(BSP_IRR0, 0xB8003008);
-		print_reg(BSP_IRR1, 0xB800300C);
-		print_reg(BSP_IRR2, 0xB8003010);
-		print_reg(BSP_IRR3, 0xB8003014);
-		print_reg(BSP_TC_BASE, 0xB8003100);
+		print_reg(BSP_GIMR, 0x18003000);
+		print_reg(BSP_GISR, 0x18003004);
+		print_reg(BSP_IRR0, 0x18003008);
+		print_reg(BSP_IRR1, 0x1800300C);
+		print_reg(BSP_IRR2, 0x18003010);
+		print_reg(BSP_IRR3, 0x18003014);
+		print_reg(BSP_TC_BASE, 0x18003100);
 	}
 }
 
