@@ -24,6 +24,7 @@
 #include <asm/time.h>
 #include <asm/prom.h>
 #include <asm/smp-ops.h>
+#include <asm/tlbdebug.h>
 
 #include "mach-rtl83xx.h"
 
@@ -94,6 +95,10 @@ void __init plat_time_init(void)
 		plat_time_init_fallback();
 
 	timer_probe();
+
+	{
+		dump_tlb_all();
+	}
 }
 
 void __init arch_init_irq(void)
