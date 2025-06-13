@@ -22,6 +22,7 @@
 #include <asm/prom.h>
 #include <asm/smp-ops.h>
 #include <asm/mips-cps.h>
+#include <asm/tlbdebug.h>
 
 #include <mach-rtl83xx.h>
 
@@ -162,6 +163,10 @@ void __init prom_init(void)
 		pr_info("CONF5 %08X\n", (unsigned)read_c0_config5());
 		pr_info("CONF6 %08X\n", (unsigned)read_c0_config6());
 		pr_info("CONF7 %08X\n", (unsigned)read_c0_config7());
+
+		pr_info("dump_tlb_all i\n");
+		dump_tlb_all();
+		pr_info("dump_tlb_all o\n");
 	}
 
 	model = sw_r32(RTL838X_MODEL_NAME_INFO);
