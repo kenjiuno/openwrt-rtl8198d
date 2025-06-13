@@ -147,6 +147,19 @@ void __init prom_init(void)
 		print_reg(BSP_IRR2, 0xB8003010);
 		print_reg(BSP_IRR3, 0xB8003014);
 		print_reg(BSP_TC_BASE, 0xB8003100);
+
+		printf("LO0 %08X\n", read_c0_entrylo0());
+		printf("LO1 %08X\n", read_c0_entrylo1());
+		printf("HI %08X\n", read_c0_entryhi());
+		printf("PRId %08X\n", read_c0_prid());
+		printf("CONF0 %08X\n", read_c0_config());
+		printf("CONF1 %08X\n", read_c0_config1());
+		printf("CONF2 %08X\n", read_c0_config2());
+		printf("CONF3 %08X\n", read_c0_config3());
+		printf("CONF4 %08X\n", read_c0_config4());
+		printf("CONF5 %08X\n", read_c0_config5());
+		printf("CONF6 %08X\n", read_c0_config6());
+		printf("CONF7 %08X\n", read_c0_config7());
 	}
 
 	model = sw_r32(RTL838X_MODEL_NAME_INFO);
