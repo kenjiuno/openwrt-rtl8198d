@@ -31,6 +31,10 @@ void pll_ocp_freq_mhz(void)
 {
 	uint clk;
 
+	printfk("ocp_pll_ctrl0: %08X\n", (unsigned)read_soc(RTL_ocp_pll_ctrl0));
+	printfk("ocp_pll_ctrl3: %08X\n", (unsigned)read_soc(RTL_ocp_pll_ctrl3));
+	printfk("oc0_cmugcr: %08X\n", (unsigned)read_soc(RTL_oc0_cmugcr));
+
 	clk = ((read_soc(RTL_ocp_pll_ctrl0) << 10) >> 0x1a) * 0x32 + 100 >> ((read_soc(RTL_ocp_pll_ctrl3) << 0xd) >> 0x1f);
 	if ((read_soc(RTL_oc0_cmugcr) & 3) != 0) {
 		clk = clk >> ((read_soc(RTLoc0_cmugcr) << 0x19) >> 0x1d);
