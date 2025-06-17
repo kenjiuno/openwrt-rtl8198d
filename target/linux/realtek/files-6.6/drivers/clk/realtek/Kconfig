@@ -16,4 +16,10 @@ config COMMON_CLK_RTL83XX
 	  RTL832, as well as chips from the RTL839x series, such as RTL8390,
 	  RT8391, RTL8392, RTL8393 and RTL8396.
 
+config COMMON_CLK_RTL8198D
+	bool "Clock driver for Realtek RTL8198D"
+	depends on MACH_REALTEK_RTL
+	help
+	  This driver adds support for the Realtek RTL8198D clocks.
+
 endif
